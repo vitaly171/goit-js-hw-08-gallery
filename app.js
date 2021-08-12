@@ -66,17 +66,16 @@ const galleryItems = [
 
 const galleryContainer = document.querySelector('.js-gallery'); 
 const galleryMarkup = createGalleryCardsMarkup(galleryItems);
-const lightboxElement = document.querySelector('js-lightbox');
+const lightboxEl = document.querySelector('js-lightbox');
 const modalElement = document.querySelector('.lightbox__overlay');
 const lightboxImg = document.querySelector('.lightbox__image');
-const button = document.querySelector('.lightbox__button');
-
-
-
+const button = document.querySelector('[data-action="close-lightbox"]');
 
 galleryContainer.insertAdjacentHTML('beforeend', galleryMarkup);
 
-//console.log(createGalleryCardsMarkup(galleryItems));
+galleryContainer.addEventListener('click', onGalleryContainerClick);
+button.addEventListener('click', removeActiveImage);
+modalElement.addEventListener("click", removeActiveImage);
 
 function createGalleryCardsMarkup(cards) {
 return cards.map(({ preview, original, description }) => {
@@ -95,5 +94,38 @@ return cards.map(({ preview, original, description }) => {
   </a>
 </li>
 `}).join('');
-}
+};
+
+function onGalleryContainerClick(evt) {
+  evt.preventDefault();
+
+  const isImgClick = evt.target.classList.contains('gallery__image');
+
+   if (!isImgClick) {
+      return;
+  };
+
+  lightboxEl.classList.add('is-open');
+
+  lightboxImg.src = evt.target.dataset.source;
+
+  //console.log(evt.target.dataset.source);
+};
+
+
+
+function removeActiveImage(evt) {
+  lightboxEl.classList.remove('is-open');
+  
+    lightboxImg.src = '';
+    
+    window.removeEventListener("keydown", pressOnKey);
+};
+
+
+
+
+//console.log(createGalleryCardsMarkup(galleryItems));
+
+
 

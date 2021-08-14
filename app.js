@@ -66,7 +66,7 @@ const galleryItems = [
 
 const galleryContainer = document.querySelector('.js-gallery'); 
 const galleryMarkup = createGalleryCardsMarkup(galleryItems);
-const lightboxEl = document.querySelector('js-lightbox');
+const lightboxEl = document.querySelector('.js-lightbox');
 const modalElement = document.querySelector('.lightbox__overlay');
 const lightboxImg = document.querySelector('.lightbox__image');
 const button = document.querySelector('[data-action="close-lightbox"]');
@@ -109,9 +109,10 @@ function onGalleryContainerClick(evt) {
 
   lightboxImg.src = evt.target.dataset.source;
 
+  window.addEventListener("keydown", pressOnKey);
+
   //console.log(evt.target.dataset.source);
 };
-
 
 
 function removeActiveImage(evt) {
@@ -121,6 +122,12 @@ function removeActiveImage(evt) {
     
     window.removeEventListener("keydown", pressOnKey);
 };
+
+function pressOnKey(evt) {
+  if (evt.code === "Escape") {
+      removeActiveImage(evt);
+    }
+}
 
 
 
